@@ -12,6 +12,9 @@ class CheckOut(View):
     def post(self, request):
         address = request.POST.get('address')
         phone = request.POST.get('phone')
+        flatno = request.POST.get('flatno')
+        societyname = request.POST.get('societyname')
+
         customer = request.session.get('customer')
         cart = request.session.get('cart')
         products = Product.get_products_by_id(list(cart.keys()))
@@ -27,5 +30,10 @@ class CheckOut(View):
                           quantity=cart.get(str(product.id)))
             order.save()
         request.session['cart'] = {}
+
+        return redirect('orders')
+
+    def __str__(self):
+        return str(self.customer)
 
         return redirect('cart')
